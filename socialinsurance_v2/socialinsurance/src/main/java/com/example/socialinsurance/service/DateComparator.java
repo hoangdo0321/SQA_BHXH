@@ -9,7 +9,6 @@ import java.util.Comparator;
 import java.util.Locale;
 
 public class DateComparator implements Comparator<InsuranceDetails> {
-    private Collator collator = Collator.getInstance(new Locale("vi", "VN"));
 
     @Override
     public int compare(InsuranceDetails o1, InsuranceDetails o2) {

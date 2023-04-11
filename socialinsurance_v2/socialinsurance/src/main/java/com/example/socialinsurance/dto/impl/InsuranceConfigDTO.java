@@ -9,6 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class InsuranceConfigDTO {
+    private String type;
     private Double huuTriTuTuat;
     private Double omDauThaiSan;
     private Double TNLD_BNN;
