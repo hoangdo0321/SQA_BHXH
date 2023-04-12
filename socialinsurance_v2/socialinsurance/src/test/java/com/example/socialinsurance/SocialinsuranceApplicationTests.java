@@ -9,5 +9,4 @@ class SocialinsuranceApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

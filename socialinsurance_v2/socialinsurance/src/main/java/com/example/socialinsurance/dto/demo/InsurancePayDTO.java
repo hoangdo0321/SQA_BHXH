@@ -19,4 +19,5 @@ public class InsurancePayDTO {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     private LocalDate expireDate;
     private Double insuranceCost;
+    private String type;
 }

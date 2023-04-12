@@ -41,6 +41,7 @@ public class Demoservice {
                 .startDate(insurancePayDTO.getStartDate())
                 .expireDate(insurancePayDTO.getExpireDate())
                 .insuranceCost(insurancePayDTO.getInsuranceCost())
+                .type(insurancePayDTO.getType())
                 .job(job)
                 .user(user)
                 .build();
