@@ -29,6 +29,9 @@ public class TrackingListService {
         String status = "";
         LocalDate currentDate = LocalDate.now();
         List<InsuranceDetails>insuranceDetailsList = new ArrayList<>(user.getInsuranceDetails());
+        if(insuranceDetailsList.isEmpty()){
+            return false;
+        }
         Collections.sort(insuranceDetailsList, new DateComparator());
         LocalDate startD = insuranceDetailsList.get(insuranceDetailsList.size()-1).getStartDate();
         LocalDate expireD = insuranceDetailsList.get(insuranceDetailsList.size()-1).getExpireDate();
@@ -62,14 +65,27 @@ public class TrackingListService {
     }
 
 
-    public List<UserInfoDTO> getUsersByAddress(Address address){
+    public List<UserInfoDTO> getUsersByAddress(String city, String district, String ward){
+        System.out.println(city);
+        System.out.println(district);
+        System.out.println(ward);
+
+       // List<User> users= new ArrayList<>();
         List<Address> addresses = new ArrayList<>();
-        if(address.getDistrict().isEmpty() && address.getWard().isEmpty()) {
-            addresses = addressRepository.findByCity(address.getCity());
-        } else if (address.getWard().isEmpty() == false) {
-            addresses = addressRepository.findByWard(address.getWard());
-        } else if (address.getDistrict().isEmpty() == false && address.getWard().isEmpty() == true) {
-            addresses = addressRepository.findByDistrict(address.getDistrict());
+        if(city != null && district != null && ward != null){
+            Address fullAddress = addressRepository.findByCityAndDistrictAndWard(city, district, ward);
+            addresses.add(fullAddress);
+            //users.addAll(userRepository.findUserByCityAndDistrictAndWard(city, district, ward));
+        } else if (city != null && district != null && ward == null) {
+            addresses.addAll(addressRepository.findByCityAndDistrict(city, district));
+           // users.addAll(userRepository.findUserByCityAndDistrict(city, district));
+        } else if (city != null  && district == null && ward == null) {
+            addresses.addAll(addressRepository.findByCity(city));
+            //users.addAll(userRepository.findUserByCity(city));
+
+        } else if (city == null  && district == null && ward == null) {
+            return null;
+
         }
 
 
@@ -79,7 +95,7 @@ public class TrackingListService {
         }
         List<User> userList = new ArrayList<>(users);
         List<UserInfoDTO> userInfoDTOS = new ArrayList<>();
-        for(User u: userList){
+        for(User u: users){
             var userinfo = UserInfoDTO.builder()
                     .sinCode(u.getSinCode())
                     .idCard(u.getIdCard())

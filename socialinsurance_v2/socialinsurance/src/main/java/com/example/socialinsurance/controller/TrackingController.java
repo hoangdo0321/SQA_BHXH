@@ -20,14 +20,13 @@ import java.util.List;
 public class TrackingController {
     private final TrackingListService service;
 
-    @GetMapping(value = "/address/")
+    @GetMapping(value = "/address")
     public ResponseEntity<List<UserInfoDTO>> trackingByAddress(
             @RequestParam(value = "city", required = true) String city,
             @RequestParam(value = "district", required = false) String district,
-            @RequestParam(value = "city", required = false) String ward
+            @RequestParam(value = "ward", required = false) String ward
     ){
-        var address = Address.builder().city(city).district(district).ward(ward).build();
-        return ResponseEntity.ok(service.getUsersByAddress(address));
+        return ResponseEntity.ok(service.getUsersByAddress(city,district, ward));
     }
     @GetMapping(value = "/all")
     public ResponseEntity<List<UserInfoDTO>>trackingAllUser(){

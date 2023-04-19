@@ -14,15 +14,15 @@ public class InsuranceConfig {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
-    @Column(name = "retire", precision = 3, scale = 1)
+    @Column(name = "retire")
     private Double huuTriTuTuat;
-    @Column(name = "pregant",precision = 3, scale = 1)
+    @Column(name = "pregant")
     private Double omDauThaiSan;
-    @Column(name = "accident", precision = 3, scale = 1)
+    @Column(name = "accident")
     private Double TNLD_BNN;
-    @Column(name = "jobless", precision = 3, scale = 1)
+    @Column(name = "jobless")
     private Double BHTN;
-    @Column(name = "medical", precision = 3, scale = 1)
+    @Column(name = "medical")
     private Double BHYT;
     private LocalDate updateDate;
 

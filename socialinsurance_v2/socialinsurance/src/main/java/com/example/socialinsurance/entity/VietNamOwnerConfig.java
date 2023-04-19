@@ -8,8 +8,9 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
-@Table(name = "vn_oConfig")
+@Table(name = "vnOwnerConfig")
 public class VietNamOwnerConfig extends InsuranceConfig{
     public VietNamOwnerConfig( Double huuTriTuTuat, Double omDauThaiSan, Double TNLD_BNN, Double BHTN, Double BHYT, LocalDate updateDate) {
         super(huuTriTuTuat, omDauThaiSan, TNLD_BNN, BHTN, BHYT, updateDate);

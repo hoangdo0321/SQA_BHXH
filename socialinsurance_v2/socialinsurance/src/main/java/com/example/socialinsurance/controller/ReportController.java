@@ -22,7 +22,7 @@ public class ReportController {
     public ResponseEntity<List<ReportProfitDTO>> getReportProfit(@RequestBody ReportRequestDTO reportRequestDTO){
         return ResponseEntity.ok(reportService.reportProfitByYearAndCities(reportRequestDTO));
     }
-    @GetMapping("/profit")
+    @GetMapping("/user")
     public ResponseEntity<List<ReportUserDTO>> getReportUser(@RequestBody ReportRequestDTO reportRequestDTO){
         return ResponseEntity.ok(reportService.reportUserByYearAndCities(reportRequestDTO));
     }

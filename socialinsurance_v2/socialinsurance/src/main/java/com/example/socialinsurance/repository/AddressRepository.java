@@ -11,8 +11,13 @@ import java.util.Optional;
 
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {
+
     Address findByCityAndDistrictAndWard(String city, String district, String ward);
+
+    List<Address> findByCityAndDistrict(String city, String district);
     List<Address> findByCity(String city);
+
+
     List<Address> findByDistrict(String district);
 
     List<Address> findByWard(String ward);

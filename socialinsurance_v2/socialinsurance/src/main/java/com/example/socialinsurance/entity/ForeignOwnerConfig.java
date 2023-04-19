@@ -8,8 +8,9 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
-@Table(name = "fr_oConfig")
+@Table(name = "frOwnerConfig")
 public class ForeignOwnerConfig extends InsuranceConfig{
     public ForeignOwnerConfig( Double huuTriTuTuat, Double omDauThaiSan, Double TNLD_BNN, Double BHTN, Double BHYT, LocalDate updateDate) {
         super( huuTriTuTuat, omDauThaiSan, TNLD_BNN, BHTN, BHYT, updateDate);
