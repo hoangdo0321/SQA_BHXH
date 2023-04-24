@@ -6,6 +6,7 @@ import com.example.socialinsurance.dto.impl.ReportUserDTO;
 import com.example.socialinsurance.entity.Address;
 import com.example.socialinsurance.entity.InsuranceDetails;
 import com.example.socialinsurance.entity.User;
+import com.example.socialinsurance.exception.InputException;
 import com.example.socialinsurance.repository.AddressRepository;
 import com.example.socialinsurance.repository.InsuranceRepository;
 import com.example.socialinsurance.repository.UserRepository;
@@ -26,6 +27,7 @@ public class ReportService {
     public List<ReportProfitDTO> reportProfitByYearAndCities(ReportRequestDTO reportRequestDTO){
         int startYear = reportRequestDTO.getStartYear();
         int endYear = reportRequestDTO.getEndYear();
+
         List<String> cities = reportRequestDTO.getCities();
         List<ReportProfitDTO> reportProfitDTOS = new ArrayList<>();
         TreeMap<String, Double> addressMap = new TreeMap<>(new AddressComparator());
@@ -33,7 +35,6 @@ public class ReportService {
         //address condition
         if(cities.contains("All")){
            List<InsuranceDetails>insuranceDetailsList = insuranceRepository.findAll();
-
            TreeMap<Integer, Double> allProfitMap = new TreeMap<>();
            for(int year = startYear; year <= endYear; year++){
                Double allProfit = 0d;

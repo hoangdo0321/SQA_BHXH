@@ -21,7 +21,9 @@ public class Admin implements UserDetails{
     @GeneratedValue
     private Long Id;
     private String fullName;
+    @Column(name = "email", unique = true)
     private String email;
+
     private String password;
     private String tel;
 

@@ -17,7 +17,7 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "userId")
     private Long userId;
     private String sinCode;
     private String idCard;
@@ -27,7 +27,7 @@ public class User {
     private String email;
     private String nationality;
     @ManyToOne
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    @JoinColumn(name = "address_id", referencedColumnName = "adrId")
     private Address address;
     private String detailAddress;
     @Enumerated(EnumType.STRING)

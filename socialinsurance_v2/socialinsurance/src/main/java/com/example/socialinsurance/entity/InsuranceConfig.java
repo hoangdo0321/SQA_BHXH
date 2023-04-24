@@ -25,6 +25,8 @@ public class InsuranceConfig {
     @Column(name = "medical")
     private Double BHYT;
     private LocalDate updateDate;
+    @Column(name = "isUse")
+    private boolean isInUse;
 
     public InsuranceConfig(Double huuTriTuTuat, Double omDauThaiSan, Double tnld_bnn, Double bhtn, Double bhyt, LocalDate updateDate) {
     }

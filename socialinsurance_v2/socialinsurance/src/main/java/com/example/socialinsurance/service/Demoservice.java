@@ -68,6 +68,7 @@ public class Demoservice {
             case "MO": insuranceType = InsuranceType.MANDATORY_OWNER;
                 break;
             case "O": insuranceType = InsuranceType.OPTIONAL;
+                break;
             default:
                 break;
         }

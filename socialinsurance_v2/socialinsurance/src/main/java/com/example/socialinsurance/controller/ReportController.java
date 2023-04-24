@@ -7,6 +7,7 @@ import com.example.socialinsurance.service.ReportService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/static")
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('ROLE_MANAGER')")
 public class ReportController {
     private final ReportService reportService;
 

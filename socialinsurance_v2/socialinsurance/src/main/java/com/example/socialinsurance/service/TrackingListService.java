@@ -5,6 +5,8 @@ import com.example.socialinsurance.dto.impl.UserInfoDTO;
 import com.example.socialinsurance.dto.impl.UserInfoDetailsDTO;
 
 import com.example.socialinsurance.entity.*;
+import com.example.socialinsurance.exception.InputException;
+import com.example.socialinsurance.exception.NotFoundException;
 import com.example.socialinsurance.repository.AddressRepository;
 import com.example.socialinsurance.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -69,7 +71,7 @@ public class TrackingListService {
         System.out.println(city);
         System.out.println(district);
         System.out.println(ward);
-
+        List<UserInfoDTO> userInfoDTOS = new ArrayList<>();
        // List<User> users= new ArrayList<>();
         List<Address> addresses = new ArrayList<>();
         if(city != null && district != null && ward != null){
@@ -83,18 +85,21 @@ public class TrackingListService {
             addresses.addAll(addressRepository.findByCity(city));
             //users.addAll(userRepository.findUserByCity(city));
 
-        } else if (city == null  && district == null && ward == null) {
-            return null;
-
         }
-
+        System.out.println(addresses);
+        if(addresses.isEmpty()){
+           return userInfoDTOS;
+        }
 
         Set<User> users = new HashSet<User>();
         for (Address addr: addresses){
             users.addAll(addr.getUser());
         }
+        if(users.isEmpty()){
+            return userInfoDTOS;
+        }
         List<User> userList = new ArrayList<>(users);
-        List<UserInfoDTO> userInfoDTOS = new ArrayList<>();
+
         for(User u: users){
             var userinfo = UserInfoDTO.builder()
                     .sinCode(u.getSinCode())
@@ -123,7 +128,10 @@ public class TrackingListService {
 
     public UserInfoDetailsDTO getUSerDetails(String code){
         User user = userRepository.findBySinCode(code);
-        List<InsuranceDetails> insuranceDetails = new ArrayList<>();
+        List<InsuranceDetails> insuranceDetails = new ArrayList<>(user.getInsuranceDetails());
+//        if(insuranceDetails.isEmpty()){
+//            throw new NotFoundException("Not Found Details");
+//        }
         List<InsuranceDetailsDTO> insuranceDetailsDTOS = new ArrayList<>();
         Job currentJob = new Job();
         for(InsuranceDetails insd : insuranceDetails){
@@ -159,7 +167,7 @@ public class TrackingListService {
                 .currentWorkplace(currentJob.getWorkplace())
                 .insuranceDetails(insuranceDetailsDTOS)
                 .nationality(user.getNationality())
-                .insType(user.getInsuranceType().toString())
+                .insType(String.valueOf(user.getInsuranceType().toString().charAt(0)))
                 .timeJoined(totalInsurancePayTime(user))
                 .build();
 

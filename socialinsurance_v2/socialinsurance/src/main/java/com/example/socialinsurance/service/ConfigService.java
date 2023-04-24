@@ -16,10 +16,10 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ConfigService {
-    private VnWorkerCfRepository vnWorkerCfRepository;
-    private VnOwnerCfRepository vnOwnerCfRepository;
-    private FRWorkerCfRepository frWorkerCfRepository;
-    private FROwnerCfRepository frOwnerCfRepository;
+    private final VnWorkerCfRepository vnWorkerCfRepository;
+    private final VnOwnerCfRepository vnOwnerCfRepository;
+    private final FRWorkerCfRepository frWorkerCfRepository;
+    private final FROwnerCfRepository frOwnerCfRepository;
 
     public InsuranceConfigDTO getConfig(String type){
         InsuranceConfigDTO insuranceConfigDTO = null;

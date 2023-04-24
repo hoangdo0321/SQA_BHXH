@@ -1,6 +1,6 @@
 package com.example.socialinsurance.entity;
 
 public enum Role {
-    EMP,
-    ADMIN
+    ROLE_EMPLOYEE,
+    ROLE_MANAGER
 }

@@ -1,6 +1,8 @@
 package com.example.socialinsurance.config;
 
+import com.example.socialinsurance.exception.InputException;
 import com.example.socialinsurance.service.JwtService;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,6 +52,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
+
+
         }
         filterChain.doFilter(request, response);
     }

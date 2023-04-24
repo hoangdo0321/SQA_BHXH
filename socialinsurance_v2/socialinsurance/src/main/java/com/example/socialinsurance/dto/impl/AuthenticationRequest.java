@@ -1,4 +1,4 @@
-package com.example.socialinsurance.dto.demo;
+package com.example.socialinsurance.dto.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterRequest {
-    private String fullName;
+public class AuthenticationRequest {
     private String email;
     private String password;
-    private String tel;
+
 }

@@ -18,8 +18,8 @@ public class InsuranceConfigController {
 
     }
 
-    @GetMapping("/{configType}")
-    public ResponseEntity<InsuranceConfigDTO> updateConfig(@PathVariable("configType") String configType){
+    @GetMapping("/{configType}")// configType: 4 loai = LDVN, SDLDVN, LDNG, SDLDNG
+    public ResponseEntity<InsuranceConfigDTO> getInsuranceConfig(@PathVariable("configType") String configType){
         return ResponseEntity.ok(configService.getConfig(configType));
 
     }

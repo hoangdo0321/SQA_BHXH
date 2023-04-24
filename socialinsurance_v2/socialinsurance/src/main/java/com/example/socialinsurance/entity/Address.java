@@ -16,7 +16,7 @@ import java.util.Set;
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "adrId")
     private Long id;
     private String city;
     private String district;

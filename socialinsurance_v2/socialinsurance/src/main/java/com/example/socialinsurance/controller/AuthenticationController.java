@@ -1,8 +1,8 @@
 package com.example.socialinsurance.controller;
 
-import com.example.socialinsurance.dto.demo.AuthenticationRequest;
-import com.example.socialinsurance.dto.demo.AuthenticationResponse;
-import com.example.socialinsurance.dto.demo.RegisterRequest;
+import com.example.socialinsurance.dto.impl.AuthenticationRequest;
+import com.example.socialinsurance.dto.impl.AuthenticationResponse;
+import com.example.socialinsurance.dto.impl.RegisterRequest;
 import com.example.socialinsurance.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService service;

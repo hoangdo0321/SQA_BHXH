@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReportRequestDTO {
-    private int startYear;
-    private int endYear;
+    private Integer startYear;
+    private Integer endYear;
     private List<String> cities;
 }
