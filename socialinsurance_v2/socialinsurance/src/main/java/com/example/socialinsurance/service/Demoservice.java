@@ -45,7 +45,6 @@ public class Demoservice {
                 .job(job)
                 .user(user)
                 .build();
-
         user.getInsuranceDetails().add(insuranceDetails);
 //        userRepository.save(user);
         insuranceRepository.save(insuranceDetails);
@@ -62,7 +61,7 @@ public class Demoservice {
         Address repoAddress = addressRepository.findByCityAndDistrictAndWard(userRegister.getCity(),
                 userRegister.getDistrict(), userRegister.getWard());
         Job requestJob = Job.builder().name(userRegister.getCurrentJobName())
-                .workplace(userRegister.getCurrentWorkplace()).salary(userRegister.getCurrentSalary()).build();
+                .workplace(userRegister.getCurrentWorkplace()).salary(userRegister.getCurrentSalary()).isWorking(true).build();
         InsuranceType insuranceType = InsuranceType.MANDATORY_WORKER;
         switch (userRegister.getInsType()){
             case "MO": insuranceType = InsuranceType.MANDATORY_OWNER;
@@ -107,7 +106,6 @@ public class Demoservice {
                     .address(requestAddress)
                     .detailAddress(userRegister.getDetailAddress())
                     .build();
-            System.out.println("Over hereeeeeeeeeeeeeeeeeee");
             requestJob.setUser(user);
             Set<User> users = new HashSet<User>();
             Set<Job> jobs = new HashSet<>();

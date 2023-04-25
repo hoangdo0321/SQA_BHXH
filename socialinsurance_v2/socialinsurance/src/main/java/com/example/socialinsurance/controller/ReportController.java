@@ -16,15 +16,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/static")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ROLE_MANAGER')")
+//@PreAuthorize("hasRole('ROLE_MANAGER')")
 public class ReportController {
     private final ReportService reportService;
 
-    @GetMapping("/profit")
+    @PostMapping("/profit")
     public ResponseEntity<List<ReportProfitDTO>> getReportProfit(@RequestBody ReportRequestDTO reportRequestDTO){
         return ResponseEntity.ok(reportService.reportProfitByYearAndCities(reportRequestDTO));
     }
-    @GetMapping("/user")
+    @PostMapping("/user")
     public ResponseEntity<List<ReportUserDTO>> getReportUser(@RequestBody ReportRequestDTO reportRequestDTO){
         return ResponseEntity.ok(reportService.reportUserByYearAndCities(reportRequestDTO));
     }

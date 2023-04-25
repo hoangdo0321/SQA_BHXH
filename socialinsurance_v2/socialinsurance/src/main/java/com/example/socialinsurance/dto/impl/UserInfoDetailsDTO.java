@@ -31,6 +31,6 @@ public class UserInfoDetailsDTO {
     private String currentWorkplace;
     private Double currentSalary;
     private Long timeJoined;
-    @JsonIgnore
+    //@JsonIgnore
     private List<InsuranceDetailsDTO> insuranceDetails;
 }

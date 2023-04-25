@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -38,7 +39,7 @@ public class TrackingListService {
         LocalDate startD = insuranceDetailsList.get(insuranceDetailsList.size()-1).getStartDate();
         LocalDate expireD = insuranceDetailsList.get(insuranceDetailsList.size()-1).getExpireDate();
         if( (currentDate.isEqual(startD) || currentDate.isAfter(startD))
-                    && (currentDate.isEqual(expireD) || currentDate.isBefore(expireD)) ){
+                && (currentDate.isEqual(expireD) || currentDate.isBefore(expireD)) ){
             return true;
         }
         return false;
@@ -48,6 +49,9 @@ public class TrackingListService {
         String status = "";
         LocalDate currentDate = LocalDate.now();
         List<InsuranceDetails>insuranceDetailsList = new ArrayList<>(user.getInsuranceDetails());
+        if(insuranceDetailsList.isEmpty()){
+            return 0l;
+        }
         Collections.sort(insuranceDetailsList, new DateComparator());
         return ChronoUnit.DAYS.between(insuranceDetailsList.get(0).getStartDate(),
                 insuranceDetailsList.get(insuranceDetailsList.size()-1).getExpireDate()) + 1;
@@ -72,23 +76,26 @@ public class TrackingListService {
         System.out.println(district);
         System.out.println(ward);
         List<UserInfoDTO> userInfoDTOS = new ArrayList<>();
-       // List<User> users= new ArrayList<>();
+        // List<User> users= new ArrayList<>();
         List<Address> addresses = new ArrayList<>();
-        if(city != null && district != null && ward != null){
+        if(!city.isBlank() && !district.isBlank() && !ward.isBlank()){
             Address fullAddress = addressRepository.findByCityAndDistrictAndWard(city, district, ward);
             addresses.add(fullAddress);
             //users.addAll(userRepository.findUserByCityAndDistrictAndWard(city, district, ward));
-        } else if (city != null && district != null && ward == null) {
+        } else if (!city.isBlank() && !district.isBlank() && ward.isBlank()) {
             addresses.addAll(addressRepository.findByCityAndDistrict(city, district));
-           // users.addAll(userRepository.findUserByCityAndDistrict(city, district));
-        } else if (city != null  && district == null && ward == null) {
+            // users.addAll(userRepository.findUserByCityAndDistrict(city, district));
+        } else if (!city.isBlank()  && district.isBlank() && ward.isBlank()) {
             addresses.addAll(addressRepository.findByCity(city));
             //users.addAll(userRepository.findUserByCity(city));
-
+        } else if (city.isBlank()) {
+            throw new InputException("Chưa nhập Tỉnh/TP");
+        } else if (!city.isBlank() && district.isBlank() && !ward.isBlank()){
+            throw new InputException("Chưa nhập Quận/Huyện");
         }
         System.out.println(addresses);
         if(addresses.isEmpty()){
-           return userInfoDTOS;
+            return userInfoDTOS;
         }
 
         Set<User> users = new HashSet<User>();
@@ -132,16 +139,18 @@ public class TrackingListService {
 //        if(insuranceDetails.isEmpty()){
 //            throw new NotFoundException("Not Found Details");
 //        }
+        Collections.sort(insuranceDetails, new DateComparator());
         List<InsuranceDetailsDTO> insuranceDetailsDTOS = new ArrayList<>();
         Job currentJob = new Job();
         for(InsuranceDetails insd : insuranceDetails){
+            Double isc = insd.getInsuranceCost();
             var insdDTO = InsuranceDetailsDTO.builder()
                     .startDate(insd.getStartDate())
                     .expireDate(insd.getExpireDate())
                     .insuranceCost(insd.getInsuranceCost())
                     .jobName(insd.getJob().getName())
                     .workplace(insd.getJob().getWorkplace())
-                    .salary(insd.getJob().getSalary())
+                    .salary(currentJob.getSalary())
                     .build();
             if(insd.getJob().isWorking()){
                 currentJob = insd.getJob();
@@ -149,8 +158,7 @@ public class TrackingListService {
 
             insuranceDetailsDTOS.add(insdDTO);
         }
-
-
+        Double sal = currentJob.getSalary();
         var userdto = UserInfoDetailsDTO.builder()
                 .sinCode(user.getSinCode())
                 .idCard(user.getIdCard())

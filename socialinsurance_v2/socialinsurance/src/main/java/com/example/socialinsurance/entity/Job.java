@@ -19,7 +19,7 @@ public class Job {
     private String name;
     private Double salary;
     private String workplace;
-    private boolean isWorking = true;
+    private boolean isWorking;
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private User user;
