@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Date;
+
 @Getter
 @Setter
 @Builder
@@ -24,10 +26,14 @@ public class InsuranceConfig {
     private Double BHTN;
     @Column(name = "medical")
     private Double BHYT;
-    private LocalDate updateDate;
-    @Column(name = "isUse")
-    private boolean isInUse;
+    private Date updateDate;
 
-    public InsuranceConfig(Double huuTriTuTuat, Double omDauThaiSan, Double tnld_bnn, Double bhtn, Double bhyt, LocalDate updateDate) {
+    public InsuranceConfig(Double huuTriTuTuat, Double omDauThaiSan, Double tnld_bnn, Double bhtn, Double bhyt, Date updateDate) {
+        this.huuTriTuTuat = huuTriTuTuat;
+        this.omDauThaiSan = omDauThaiSan;
+        this.TNLD_BNN = tnld_bnn;
+        this.BHTN = bhtn;
+        this.BHYT = bhyt;
+        this.updateDate = updateDate;
     }
 }

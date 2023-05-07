@@ -29,10 +29,10 @@ public class ReportService {
         int startYear = reportRequestDTO.getStartYear();
         int endYear = reportRequestDTO.getEndYear();
         if(startYear <= 0 || endYear <= 0){
-            throw new InputException("Nhập năm là số nguyên dương");
+            throw new InputException("Nhập Năm Là Số Nguyên Dương");
         }
         if(startYear > endYear){
-            throw new InputException("Năm bắt đầu phải nhỏ hơn năm kết thúc");
+            throw new InputException("Năm Bắt Đầu Phải Nhỏ Hơn Năm Kết Thúc");
         }
         List<String> cities = reportRequestDTO.getCities();
         List<ReportProfitDTO> reportProfitDTOS = new ArrayList<>();
@@ -100,6 +100,12 @@ public class ReportService {
     public List<ReportUserDTO> reportUserByYearAndCities(ReportRequestDTO reportRequestDTO) {
         int startYear = reportRequestDTO.getStartYear();
         int endYear = reportRequestDTO.getEndYear();
+        if(startYear <= 0 || endYear <= 0){
+            throw new InputException("Nhập Năm Là Số Nguyên Dương");
+        }
+        if(startYear > endYear){
+            throw new InputException("Năm Bắt Đầu Phải Nhỏ Hơn Năm Kết Thúc");
+        }
         List<String> cities = reportRequestDTO.getCities();
         List<ReportUserDTO> reportUserDTOS = new ArrayList<>();
 

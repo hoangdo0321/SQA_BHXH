@@ -5,6 +5,7 @@ import jakarta.persistence.Table;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "vnOwnerConfig")
 public class VietNamOwnerConfig extends InsuranceConfig{
-    public VietNamOwnerConfig( Double huuTriTuTuat, Double omDauThaiSan, Double TNLD_BNN, Double BHTN, Double BHYT, LocalDate updateDate) {
+    public VietNamOwnerConfig( Double huuTriTuTuat, Double omDauThaiSan, Double TNLD_BNN, Double BHTN, Double BHYT, Date updateDate) {
         super(huuTriTuTuat, omDauThaiSan, TNLD_BNN, BHTN, BHYT, updateDate);
     }
 

@@ -2,6 +2,7 @@ package com.example.socialinsurance.service;
 
 import com.example.socialinsurance.dto.impl.InsuranceConfigDTO;
 import com.example.socialinsurance.entity.*;
+import com.example.socialinsurance.exception.InputException;
 import com.example.socialinsurance.repository.FROwnerCfRepository;
 import com.example.socialinsurance.repository.FRWorkerCfRepository;
 import com.example.socialinsurance.repository.VnOwnerCfRepository;
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +27,13 @@ public class ConfigService {
     public InsuranceConfigDTO getConfig(String type){
         InsuranceConfigDTO insuranceConfigDTO = null;
         if(type.equalsIgnoreCase("LDVN")){
-            List<VietNamWorkerConfig> vietNamWorkerConfigs = vnWorkerCfRepository.findAll();
-            VietNamWorkerConfig vietNamWorkerConfig = vietNamWorkerConfigs.get(vietNamWorkerConfigs.size()-1);
+            List<VietNamWorkerConfig> vietNamWorkerConfigs = vnWorkerCfRepository.findAllByOrderByUpdateDateDesc();
+            if(vietNamWorkerConfigs.isEmpty()) {
+                throw new InputException("Chưa Có Cấu Hình Cho Lao Động Việt Nam");
+
+            }
+            VietNamWorkerConfig vietNamWorkerConfig = vietNamWorkerConfigs.get(0);
+
             insuranceConfigDTO = InsuranceConfigDTO.builder()
                     .type("LDVN")
                     .huuTriTuTuat(vietNamWorkerConfig.getHuuTriTuTuat())
@@ -36,8 +44,12 @@ public class ConfigService {
                     .build();
         }
         if(type.equalsIgnoreCase("SDLDVN")){
-            List<VietNamOwnerConfig> vietNamOwnerConfigs = vnOwnerCfRepository.findAll();
-            VietNamOwnerConfig vietNamOwnerConfig = vietNamOwnerConfigs.get(vietNamOwnerConfigs.size()-1);
+            List<VietNamOwnerConfig> vietNamOwnerConfigs = vnOwnerCfRepository.findAllByOrderByUpdateDateDesc();
+            if(vietNamOwnerConfigs.isEmpty()){
+                throw new InputException("Chưa Có Cấu Hình Cho Sử dụng Lao Động Việt Nam");
+            }
+            VietNamOwnerConfig vietNamOwnerConfig = vietNamOwnerConfigs.get(0);
+
             insuranceConfigDTO = InsuranceConfigDTO.builder()
                     .type("SDLDVN")
                     .huuTriTuTuat(vietNamOwnerConfig.getHuuTriTuTuat())
@@ -47,11 +59,16 @@ public class ConfigService {
                     .BHYT(vietNamOwnerConfig.getBHYT())
                     .build();
 
+
         }
         if(type.equalsIgnoreCase("LDNG")){
-            List<ForeignWorkerConfig> foreignWorkerConfigs = frWorkerCfRepository.findAll();
-            ForeignWorkerConfig foreignWorkerConfig = foreignWorkerConfigs.get(foreignWorkerConfigs.size()-1);
-            InsuranceConfigDTO insuranceConfigDTO3 = InsuranceConfigDTO.builder()
+            List<ForeignWorkerConfig> foreignWorkerConfigs = frWorkerCfRepository.findAllByOrderByUpdateDateDesc();
+            if(foreignWorkerConfigs.isEmpty()) {
+                throw new InputException("Chưa Có Cấu Hình Cho Lao Động Nước Ngoài");
+            }
+            ForeignWorkerConfig foreignWorkerConfig = foreignWorkerConfigs.get(0);
+
+            insuranceConfigDTO = InsuranceConfigDTO.builder()
                     .type("LDNG")
                     .huuTriTuTuat(foreignWorkerConfig.getHuuTriTuTuat())
                     .omDauThaiSan(foreignWorkerConfig.getOmDauThaiSan())
@@ -61,10 +78,13 @@ public class ConfigService {
                     .build();
 
         }
-        if(type.equalsIgnoreCase("SDLDNG")){
-            List<ForeignOwnerConfig> foreignOwnerConfigs = frOwnerCfRepository.findAll();
-            ForeignOwnerConfig foreignOwnerConfig = foreignOwnerConfigs.get(foreignOwnerConfigs.size()-1);
 
+        if(type.equalsIgnoreCase("SDLDNG")){
+            List<ForeignOwnerConfig> foreignOwnerConfigs = frOwnerCfRepository.findAllByOrderByUpdateDateDesc();
+            if(foreignOwnerConfigs.isEmpty()){
+                throw new InputException("Chưa Có Cấu Hình Cho Sử Dụng Lao Động Nước Ngoài");
+            }
+            ForeignOwnerConfig foreignOwnerConfig = foreignOwnerConfigs.get(0);
 
             insuranceConfigDTO = InsuranceConfigDTO.builder()
                     .type("SDLDNG")
@@ -75,22 +95,28 @@ public class ConfigService {
                     .BHYT(foreignOwnerConfig.getBHYT())
                     .build();
 
+
         }
+
         return insuranceConfigDTO;
 
 
     }
 
     public String update(InsuranceConfigDTO insuranceConfigDTO){
-
+        if(insuranceConfigDTO.getType() == null || insuranceConfigDTO.getHuuTriTuTuat() == null ||
+             insuranceConfigDTO.getOmDauThaiSan() == null || insuranceConfigDTO.getTNLD_BNN() == null ||
+             insuranceConfigDTO.getBHTN() == null || insuranceConfigDTO.getBHYT() == null){
+            throw new InputException("Cần Nhập Đủ Các Trường Để Cập Nhật");
+        }
         switch (insuranceConfigDTO.getType()){
             case "LDVN":
                 VietNamWorkerConfig config1 = new VietNamWorkerConfig(insuranceConfigDTO.getHuuTriTuTuat(),
-                        insuranceConfigDTO.getOmDauThaiSan(),
-                        insuranceConfigDTO.getTNLD_BNN(),
-                        insuranceConfigDTO.getBHTN(),
-                        insuranceConfigDTO.getBHYT(),
-                        LocalDate.now());
+                    insuranceConfigDTO.getOmDauThaiSan(),
+                    insuranceConfigDTO.getTNLD_BNN(),
+                    insuranceConfigDTO.getBHTN(),
+                    insuranceConfigDTO.getBHYT(),
+                    new Date());
                 vnWorkerCfRepository.save(config1);
 
                 break;
@@ -100,7 +126,7 @@ public class ConfigService {
                         insuranceConfigDTO.getTNLD_BNN(),
                         insuranceConfigDTO.getBHTN(),
                         insuranceConfigDTO.getBHYT(),
-                        LocalDate.now());
+                        new Date());
                 vnOwnerCfRepository.save(config2);
 
                 break;
@@ -110,7 +136,7 @@ public class ConfigService {
                         insuranceConfigDTO.getTNLD_BNN(),
                         insuranceConfigDTO.getBHTN(),
                         insuranceConfigDTO.getBHYT(),
-                        LocalDate.now());
+                        new Date());
                 frWorkerCfRepository.save(config3);
                 break;
             case "SDLDNG":
@@ -119,7 +145,7 @@ public class ConfigService {
                         insuranceConfigDTO.getTNLD_BNN(),
                         insuranceConfigDTO.getBHTN(),
                         insuranceConfigDTO.getBHYT(),
-                        LocalDate.now());
+                        new Date());
                 frOwnerCfRepository.save(config4);
 
                 break;

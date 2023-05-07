@@ -53,7 +53,7 @@ public class TrackingListService {
             return 0l;
         }
         Collections.sort(insuranceDetailsList, new DateComparator());
-        return ChronoUnit.DAYS.between(insuranceDetailsList.get(0).getStartDate(),
+        return ChronoUnit.MONTHS.between(insuranceDetailsList.get(0).getStartDate(),
                 insuranceDetailsList.get(insuranceDetailsList.size()-1).getExpireDate()) + 1;
     }
 
@@ -89,9 +89,9 @@ public class TrackingListService {
             addresses.addAll(addressRepository.findByCity(city));
             //users.addAll(userRepository.findUserByCity(city));
         } else if (city.isBlank()) {
-            throw new InputException("Chưa nhập Tỉnh/TP");
+            throw new InputException("Chưa Nhập Tỉnh/TP");
         } else if (!city.isBlank() && district.isBlank() && !ward.isBlank()){
-            throw new InputException("Chưa nhập Quận/Huyện");
+            throw new InputException("Chưa Nhập Quận/Huyện");
         }
         System.out.println(addresses);
         if(addresses.isEmpty()){

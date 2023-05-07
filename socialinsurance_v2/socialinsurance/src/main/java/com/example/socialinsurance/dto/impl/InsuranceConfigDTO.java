@@ -1,5 +1,6 @@
 package com.example.socialinsurance.dto.impl;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.Column;
 import lombok.*;
 
